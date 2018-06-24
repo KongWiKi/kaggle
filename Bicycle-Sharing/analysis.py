@@ -12,18 +12,18 @@ import seaborn as sns
 print('----------------------------------------------------------------------------------------------------------------------------')
 df_train=pd.read_csv('./resourses/train.csv')
 # print(df_train.head(2))
-# print(df_train.isnull().sum())#查看数据的缺省值
+print(df_train.isnull().sum())#查看数据的缺省值
 
 #把时间数据分割成年 月 日新特征
-df_train['year']=pd.DatetimeIndex(df_train['datetime']).year
-# print(df_train['year'][:10])
-df_train['month']=pd.DatetimeIndex(df_train['datetime']).month
-# print(df_train['month'][:2])
-df_train['day']=pd.DatetimeIndex(df_train['datetime']).day
-df_train['hour']=pd.DatetimeIndex(df_train['datetime']).hour
-# print(df_train['hour'][:4])
-df_train=df_train.drop(['datetime'],axis=1)#去除原特征值
-# print(df_train.head(2))
+# df_train['year']=pd.DatetimeIndex(df_train['datetime']).year
+# # print(df_train['year'][:10])
+# df_train['month']=pd.DatetimeIndex(df_train['datetime']).month
+# # print(df_train['month'][:2])
+# df_train['day']=pd.DatetimeIndex(df_train['datetime']).day
+# df_train['hour']=pd.DatetimeIndex(df_train['datetime']).hour
+# # print(df_train['hour'][:4])
+# df_train=df_train.drop(['datetime'],axis=1)#去除原特征值
+print(df_train.head(2))
 
 ##单变量EDA 探索之 分组均值曲线
 # fig,axs = plt.subplots(2,2,sharey=True)
@@ -63,20 +63,20 @@ df = df_train
 name = df_train.drop(['count','casual','registered'],axis=1).columns
 target = df_train['count'].values
 feature = df_train.drop(['count','casual','registered'],axis=1).values
-# print(feature)
-from sklearn import preprocessing
-feature_scaled = preprocessing.scale(feature)
-
-from sklearn import cross_validation
-from sklearn import linear_model
-from sklearn import svm
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.learning_curve import learning_curve
-from sklearn.metrics import explained_variance_score
-from sklearn.metrics import explained_variance_score
-from sklearn.grid_search import GridSearchCV
-
-cv = cross_validation.ShuffleSplit(len(feature_scaled),n_iter=5,test_size=0.2,random_state=0)
+print(feature)
+# from sklearn import preprocessing
+# feature_scaled = preprocessing.scale(feature)
+#
+# from sklearn import cross_validation
+# from sklearn import linear_model
+# from sklearn import svm
+# from sklearn.ensemble import RandomForestRegressor
+# from sklearn.learning_curve import learning_curve
+# from sklearn.metrics import explained_variance_score
+# from sklearn.metrics import explained_variance_score
+# from sklearn.grid_search import GridSearchCV
+#
+# cv = cross_validation.ShuffleSplit(len(feature_scaled),n_iter=5,test_size=0.2,random_state=0)
 # print('岭回归结果：')
 # for train,test in cv:
 #     reg2 = linear_model.Ridge().fit(feature_scaled[train],target[train])
@@ -132,39 +132,39 @@ cv = cross_validation.ShuffleSplit(len(feature_scaled),n_iter=5,test_size=0.2,ra
 #               % (mean_score, scores.std() / 2, params))
 
 
-def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
-                        n_jobs=1, train_sizes=np.linspace(.1, 1.0, 5)):
-    plt.figure()
-    plt.title(title)
-    if ylim is not None:
-        plt.ylim(*ylim)
-    plt.xlabel("Training examples")
-    plt.ylabel("Score")
-    train_sizes, train_scores, test_scores = learning_curve(
-        estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)
-    train_scores_mean = np.mean(train_scores, axis=1)
-    train_scores_std = np.std(train_scores, axis=1)
-    test_scores_mean = np.mean(test_scores, axis=1)
-    test_scores_std = np.std(test_scores, axis=1)
-    plt.grid()
-
-    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
-                     train_scores_mean + train_scores_std, alpha=0.1,
-                     color="r")
-    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
-                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
-    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
-             label="Training score")
-    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
-             label="Cross-validation score")
-
-    plt.legend(loc="best")
-    return plt
-
-
-title = "Learning Curves (Random Forest, n_estimators = 100)"
-cv = cross_validation.ShuffleSplit(feature_scaled.shape[0], n_iter=10, test_size=0.2, random_state=0)
-estimator = RandomForestRegressor(n_estimators=100, max_depth=10)
-plot_learning_curve(estimator, title, feature_scaled, target, (0.0, 1.01), cv=cv, n_jobs=1)
-
-plt.show()
+# def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
+#                         n_jobs=1, train_sizes=np.linspace(.1, 1.0, 5)):
+#     plt.figure()
+#     plt.title(title)
+#     if ylim is not None:
+#         plt.ylim(*ylim)
+#     plt.xlabel("Training examples")
+#     plt.ylabel("Score")
+#     train_sizes, train_scores, test_scores = learning_curve(
+#         estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)
+#     train_scores_mean = np.mean(train_scores, axis=1)
+#     train_scores_std = np.std(train_scores, axis=1)
+#     test_scores_mean = np.mean(test_scores, axis=1)
+#     test_scores_std = np.std(test_scores, axis=1)
+#     plt.grid()
+#
+#     plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+#                      train_scores_mean + train_scores_std, alpha=0.1,
+#                      color="r")
+#     plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+#                      test_scores_mean + test_scores_std, alpha=0.1, color="g")
+#     plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+#              label="Training score")
+#     plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+#              label="Cross-validation score")
+#
+#     plt.legend(loc="best")
+#     return plt
+#
+#
+# title = "Learning Curves (Random Forest, n_estimators = 100)"
+# cv = cross_validation.ShuffleSplit(feature_scaled.shape[0], n_iter=10, test_size=0.2, random_state=0)
+# estimator = RandomForestRegressor(n_estimators=100, max_depth=10)
+# plot_learning_curve(estimator, title, feature_scaled, target, (0.0, 1.01), cv=cv, n_jobs=1)
+#
+# plt.show()
