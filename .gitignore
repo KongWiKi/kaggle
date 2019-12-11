@@ -6,3 +6,4 @@ Digit-Recognizer/data/
 Titanic/data/
 House-Prices-Advanced-Regression-Techniques/data/
 *.ipynb_checkpoints/
+*.csv
